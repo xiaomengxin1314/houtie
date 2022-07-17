@@ -25,13 +25,14 @@
 
 <script>
 import { getLogin } from '@/api/user'
+import { setToken } from '@/utils/auth'
 export default {
   created () { },
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
@@ -56,9 +57,10 @@ export default {
         try {
           const res = await getLogin(this.loginForm)
           console.log(res)
-          // todo 把token存到vuex中并且只有化localStrage
+
           if (res.data.meta.status === 200) {
-            this.$store.commit('setUser', res.data.data)
+            this.$store.commit('setToken', res.data.data.token)
+            setToken(res.data.data.token)
             this.$router.push('/home')
             this.$message('登陆成功')
           } else {
