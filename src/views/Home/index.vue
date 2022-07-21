@@ -39,7 +39,7 @@
                 <span slot="title">用户管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/home/user">
+                <el-menu-item index="/user">
                   <i class="el-icon-menu"></i>
                   <span>用户列表</span>
                 </el-menu-item>
@@ -51,7 +51,7 @@
                 <span slot="title">权限管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/home/role">
+                <el-menu-item index="/role">
                   <template>
                     <i class="el-icon-menu"></i>
                     <span>角色列表</span>
@@ -71,7 +71,7 @@
                 <span slot="title">商品管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="3-1">
+                <el-menu-item index="goods">
                   <template>
                     <i class="el-icon-menu"></i>
                     <span>商品列表</span>

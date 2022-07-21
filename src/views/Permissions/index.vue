@@ -1,5 +1,5 @@
 <template>
- <div>
+  <div>
     <el-container>
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -7,56 +7,59 @@
         <el-breadcrumb-item>权限列表</el-breadcrumb-item>
       </el-breadcrumb>
     </el-container>
-    <div class="header">
-      <el-button>添加角色</el-button>
-    </div>
-    <el-dialog
-      width="561px"
-      title="增加用户对话框"
-      :visible.sync="dialogFormVisible"
-      :center="false"
-    >
-      <el-form :model="form" :rules="rules" ref="dataForm">
-        <el-form-item
-          label="用户名"
-          :label-width="formLabelWidth"
-          prop="username"
-        >
-          <el-input v-model="form.username" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="密码"
-          :label-width="formLabelWidth"
-          prop="password"
-        >
-          <el-input v-model="form.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
-          <el-input v-model="form.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="手机号"
-          :label-width="formLabelWidth"
-          prop="mobile"
-        >
-          <el-input v-model="form.mobile" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="userData">取 消</el-button>
-        <el-button type="primary" @click="addUsers">确 定</el-button>
-      </div>
-    </el-dialog>
+    <el-card>
+      <el-table border :data="roleList">
+        <el-table-column label="#" prop="id" width="50px"></el-table-column>
+        <el-table-column label="权限名称" prop="authName"></el-table-column>
+        <el-table-column label="权限列表" prop="path"></el-table-column>
+        <el-table-column
+          label="权限等级"
+          prop="level"
+          :formatter="formatterEmployee"
+        ></el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
 <script>
+import { RloeList } from '@/api/authority'
 export default {
-  created () { },
-  data () {
-    return {}
+  created () {
+    this.RloeList()
   },
-  methods: {},
+  data () {
+    return {
+      roleList: [],
+      level: [
+        {
+          id: '0',
+          levels: '等级一'
+        },
+        {
+          id: '1',
+          levels: '等级二'
+        },
+        {
+          id: '2',
+          levels: '等级三'
+        }
+
+      ]
+    }
+  },
+  methods: {
+
+    async RloeList () {
+      const res = await RloeList('list')
+      console.log(res)
+      this.roleList = res.data.data
+    },
+    // 聘用方式 find返回的是一个对象 indexof 返回的是一个对象的索引
+    formatterEmployee (row, column, cellValue, index) {
+      return this.level.find(item => item.id === cellValue).levels
+    }
+  },
   computed: {},
   watch: {},
   filters: {},
@@ -65,8 +68,7 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.header {
-  padding: 10px 0 0 10px;
-  background-color: #fff;
+.el-card {
+  margin-top: 15px;
 }
 </style>
